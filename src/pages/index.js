@@ -7,6 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import withRoot from "../withRoot";
 
@@ -34,9 +35,50 @@ class Index extends React.Component {
     });
   };
 
+  renderSelect = props => {
+    const { label, name, options } = props;
+
+    const optionNodes = options.map(opt => (
+      <option key={opt.value} value={opt.value}>
+        {opt.label}
+      </option>
+    ));
+
+    return (
+      <div style={{ marginTop: `${20}px` }}>
+        <TextField
+          label={label}
+          id={name}
+          name={name}
+          type="select"
+          SelectProps={{
+            native: true
+          }}
+          fullWidth
+          displayEmpty
+          select
+        >
+          {optionNodes}
+        </TextField>
+      </div>
+    );
+  };
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
+
+    const genderOptions = [
+      { label: "Select proper value", value: "" },
+      { label: "Male", value: "MALE" },
+      { label: "Female", value: "FEMALE" }
+    ];
+
+    const selectElement = this.renderSelect({
+      label: "Gender",
+      name: "gender",
+      options: genderOptions
+    });
 
     return (
       <div className={classes.root}>
@@ -44,6 +86,7 @@ class Index extends React.Component {
           <DialogTitle>Super Secret Password</DialogTitle>
           <DialogContent>
             <DialogContentText>1-2-3-4-5</DialogContentText>
+            {selectElement}
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.handleClose}>
