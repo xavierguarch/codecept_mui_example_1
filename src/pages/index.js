@@ -52,7 +52,7 @@ class Index extends React.Component {
           name={name}
           type="select"
           SelectProps={{
-            native: true
+            native: false
           }}
           fullWidth
           displayEmpty
