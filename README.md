@@ -15,6 +15,21 @@ npm install
 npm run start
 ```
 
+Install CodeceptJS and Selenium Standalone in another shell and run it:
+
+```bash
+npm install -g codeceptjs webdriverio
+npm install -g selenium-standalone
+selenium-standalone install
+selenium-standalone start
+```
+
+Run tests in yet another shell:
+
+```bash
+codeceptjs run --steps
+```
+
 ## The idea behind the example
 
 [Create React App](https://github.com/facebookincubator/create-react-app) with no build configuration.
