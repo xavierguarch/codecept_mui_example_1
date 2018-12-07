@@ -1,13 +1,12 @@
 # Create React App example
 
+Original example copied from the Material UI [`create-react-app` example](https://github.com/mui-org/material-ui/examples/create-react-app).
+
+It has been adapted to add [select fields](https://material-ui.com/demos/selects/) to it and test them with [CodeceptJS](https://codecept.io).
+
 ## How to use
 
-Download the example [or clone the repo](https://github.com/mui-org/material-ui):
-
-```bash
-curl https://codeload.github.com/mui-org/material-ui/tar.gz/master | tar -xz --strip=2 material-ui-master/examples/create-react-app
-cd create-react-app
-```
+Download the example [or clone the repo](https://github.com/xavierguarch/codecept_mui_example_1):
 
 Install it and run:
 
