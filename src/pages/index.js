@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { Field, reduxForm } from "redux-form";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -7,7 +9,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core/styles";
 import withRoot from "../withRoot";
 
@@ -20,6 +22,7 @@ const styles = theme => ({
 
 class Index extends React.Component {
   state = {
+    gender: "",
     open: false
   };
 
@@ -36,7 +39,13 @@ class Index extends React.Component {
   };
 
   renderSelect = props => {
-    const { label, name, options } = props;
+    const {
+      input,
+      label,
+      meta: { touched, error },
+      options,
+      ...custom
+    } = props;
 
     const optionNodes = options.map(opt => (
       <option key={opt.value} value={opt.value}>
@@ -46,20 +55,14 @@ class Index extends React.Component {
 
     return (
       <div style={{ marginTop: `${20}px` }}>
-        <TextField
+        <Select
+          children={optionNodes}
+          id={input.name}
           label={label}
-          id={name}
-          name={name}
-          type="select"
-          SelectProps={{
-            native: true
-          }}
-          fullWidth
-          displayEmpty
-          select
-        >
-          {optionNodes}
-        </TextField>
+          name={input.name}
+          native={true}
+          {...custom}
+        />
       </div>
     );
   };
@@ -74,22 +77,34 @@ class Index extends React.Component {
       { label: "Female", value: "FEMALE" }
     ];
 
-    const selectElement = this.renderSelect({
-      label: "Gender",
-      name: "gender",
-      options: genderOptions
-    });
+    const selectElement = props =>
+      this.renderSelect({
+        ...props,
+        label: "Gender",
+        name: "gender",
+        options: genderOptions
+      });
 
     return (
       <div className={classes.root}>
         <Dialog open={open} onClose={this.handleClose}>
           <DialogTitle>Super Secret Password</DialogTitle>
           <DialogContent>
-            <DialogContentText>1-2-3-4-5</DialogContentText>
-            {selectElement}
+            <form autoComplete="off" onSubmit={this.props.handleSubmit}>
+              <DialogContentText>1-2-3-4-5</DialogContentText>
+              <Field
+                name="gender"
+                component={selectElement}
+                label="gender"
+                options={genderOptions}
+                type="select"
+                validate={[]}
+                fullWidth
+              />
+            </form>
           </DialogContent>
           <DialogActions>
-            <Button color="primary" onClick={this.handleClose}>
+            <Button color="primary" type="submit" onClick={this.handleClose}>
               OK
             </Button>
           </DialogActions>
@@ -116,4 +131,21 @@ Index.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withRoot(withStyles(styles)(Index));
+const mapStateToProps = state => {
+  return {};
+};
+
+// eslint-disable-next-line require-jsdoc
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  reduxForm({
+    form: "myForm", // A unique identifier for this form
+    enableReinitialize: true
+  })(withRoot(withStyles(styles)(Index)))
+);
